@@ -1,4 +1,5 @@
 # Actual packages on 12.12.2019
+kaggle==1.5.6
 setuptools==41.0.0
 absl-py==0.8.1
 astor==0.8.1
@@ -82,7 +83,7 @@ testpath==0.4.4
 tornado==6.0.3
 tqdm==4.39.0
 traitlets==4.3.3
-urllib3==1.25.7
+urllib3==1.21.1
 wcwidth==0.1.7
 webencodings==0.5.1
 Werkzeug==0.16.0
