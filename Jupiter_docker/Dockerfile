@@ -7,4 +7,5 @@ RUN apt-get update && apt-get install --no-install-recommends -y libpq-dev build
 RUN cd /usr/local && ln -s /usr/bin/python3 /usr/bin/python
 COPY requirements.txt /tmp/
 RUN  python3 -m pip install --upgrade pip==19.3.1 && pip3 install -r /tmp/requirements.txt
-
+RUN  mkdir /root/.kaggle
+COPY kaggle.json /root/.kaggle/

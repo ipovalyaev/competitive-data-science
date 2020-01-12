@@ -1,0 +1,31 @@
+# Creating instance (waiting for quota confirmation)
+
+export IMAGE_FAMILY="tf-latest-gpu" 
+export ZONE="europe-west1-b"
+export INSTANCE_NAME="my-tf-instance"
+export INSTANCE_TYPE="n1-highmem-8"
+
+# budget: 'type=nvidia-tesla-k80,count=1'
+gcloud compute instances create $INSTANCE_NAME \
+        --zone=$ZONE \
+        --image-family=$IMAGE_FAMILY \
+        --image-project=deeplearning-platform-release \
+        --maintenance-policy=TERMINATE \
+        --accelerator="type=nvidia-tesla-p100,count=1" \
+        --machine-type=$INSTANCE_TYPE \
+        --boot-disk-size=200GB \
+        --metadata="install-nvidia-driver=True" \
+        --preemptible
+
+gcloud compute ssh --zone=$ZONE jupyter@$INSTANCE_NAME -- -L 8080:localhost:8080
+
+Send whole folder (init)
+gcloud compute scp ~/Syncable/competitive-data-science/Bengali.AI jupyter@$INSTANCE_NAME:~/ --zone=$ZONE --recurse
+
+Take back trained model 
+gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/models/model-2020-01-04-11-33* ~/Syncable/competitive-data-science/Bengali.AI/models/ --zone=$ZONE
+
+
+
+inside instance - 
+	sudo /opt/anaconda3/bin/conda install -c fastai fastai
