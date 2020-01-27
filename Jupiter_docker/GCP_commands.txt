@@ -17,7 +17,6 @@ gcloud compute instances create $INSTANCE_NAME \
         --metadata="install-nvidia-driver=True" \
         --preemptible
 
-
 export IMAGE_FAMILY="tf2-latest-cpu" 
 export ZONE="europe-west1-b"
 export INSTANCE_NAME="my-tf-cpu-instance"
@@ -37,6 +36,8 @@ gcloud compute instances create $INSTANCE_NAME \
 #Lisy image families 
 gcloud compute images list         --project deeplearning-platform-release         --no-standard-images
 
+Show run/stop instances:
+        https://console.cloud.google.com/compute/instances?organizationId=0&supportedpurview=project&project=alien-gantry-263514&instancessize=50
 
 gcloud compute ssh --zone=$ZONE jupyter@$INSTANCE_NAME -- -L 8080:localhost:8080
 
@@ -52,7 +53,6 @@ gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/training.ipynb ~/Syncable
 
 Take back trained model 
 gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/models/model-2020-01-09* ~/Syncable/competitive-data-science/Bengali.AI/models/ --zone=$ZONE
-
 
 
 inside instance - 
