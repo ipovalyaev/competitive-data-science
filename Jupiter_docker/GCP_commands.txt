@@ -17,6 +17,9 @@ gcloud compute instances create $INSTANCE_NAME \
         --metadata="install-nvidia-driver=True" \
         --preemptible
 
+Show run/stop instances:
+        https://console.cloud.google.com/compute/instances?organizationId=0&supportedpurview=project&project=alien-gantry-263514&instancessize=50
+
 gcloud compute ssh --zone=$ZONE jupyter@$INSTANCE_NAME -- -L 8080:localhost:8080
 
 Send whole folder (init)
@@ -24,7 +27,6 @@ gcloud compute scp ~/Syncable/competitive-data-science/Bengali.AI jupyter@$INSTA
 
 Take back trained model 
 gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/models/model-2020-01-04-11-33* ~/Syncable/competitive-data-science/Bengali.AI/models/ --zone=$ZONE
-
 
 
 inside instance - 
