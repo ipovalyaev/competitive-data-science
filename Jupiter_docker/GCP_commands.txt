@@ -17,13 +17,41 @@ gcloud compute instances create $INSTANCE_NAME \
         --metadata="install-nvidia-driver=True" \
         --preemptible
 
+
+export IMAGE_FAMILY="tf2-latest-cpu" 
+export ZONE="europe-west1-b"
+export INSTANCE_NAME="my-tf-cpu-instance"
+export INSTANCE_TYPE="n1-highmem-8"
+
+gcloud compute instances create $INSTANCE_NAME \
+        --image-project=deeplearning-platform-release \
+        --zone=$ZONE \
+        --image-family=$IMAGE_FAMILY \
+        --maintenance-policy=TERMINATE \
+        --machine-type=$INSTANCE_TYPE \
+        --boot-disk-size=200GB \
+        --preemptible
+
+
+
+#Lisy image families 
+gcloud compute images list         --project deeplearning-platform-release         --no-standard-images
+
+
 gcloud compute ssh --zone=$ZONE jupyter@$INSTANCE_NAME -- -L 8080:localhost:8080
 
-Send whole folder (init)
+Send whole folder (init, takes some time to copy dataset)
 gcloud compute scp ~/Syncable/competitive-data-science/Bengali.AI jupyter@$INSTANCE_NAME:~/ --zone=$ZONE --recurse
 
+# copy notebook to cloud
+gcloud compute scp ~/Syncable/competitive-data-science/Bengali.AI/training.ipynb jupyter@$INSTANCE_NAME:~/Bengali.AI/ --zone=$ZONE 
+
+# copy notebook from cloud
+gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/training.ipynb ~/Syncable/competitive-data-science/Bengali.AI/ --zone=$ZONE 
+
+
 Take back trained model 
-gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/models/model-2020-01-04-11-33* ~/Syncable/competitive-data-science/Bengali.AI/models/ --zone=$ZONE
+gcloud compute scp jupyter@$INSTANCE_NAME:~/Bengali.AI/models/model-2020-01-09* ~/Syncable/competitive-data-science/Bengali.AI/models/ --zone=$ZONE
 
 
 
